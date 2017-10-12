@@ -128,7 +128,12 @@ namespace RailcardGen
         {
             try
             {
-                
+                var rc = new Railcard();
+                var rci = rc as IRJISReadable;
+                var rc2 = rci as Railcard;
+                var s = typeof(int);
+                var d = new Dictionary<System.Type, List<IRJISReadable>>();
+                Console.WriteLine();
             }
             catch (Exception ex)
             {
