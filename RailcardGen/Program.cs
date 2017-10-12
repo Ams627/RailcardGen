@@ -133,6 +133,8 @@ namespace RailcardGen
                 var rc2 = rci as Railcard;
                 var s = typeof(int);
                 var d = new Dictionary<System.Type, List<IRJISReadable>>();
+                d.Add(typeof(Railcard), new List<IRJISReadable>());
+                d[typeof(Railcard)].Add(new Railcard());
                 Console.WriteLine();
             }
             catch (Exception ex)
