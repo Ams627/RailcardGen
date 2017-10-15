@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-// Vente ID_RAILCARD_NUMERO_VERSION ( 6 ; 6257 ) uint 9
+﻿// Vente ID_RAILCARD_NUMERO_VERSION ( 6 ; 6257 ) uint 9
 // Vente ID_RAILCARD_IAP ( 6 ; 6258 ) string "TVM01"
 // Vente ID_RAILCARD_RAILCARD ( 6 ; 6259 ) array struct
 // [
@@ -47,69 +39,14 @@ using System.Threading.Tasks;
 
 namespace RailcardGen
 {
-    using System.Collections.Generic;
-
-
-    public enum RJISTypes
+    internal class RJISFileMapping
     {
-        String = 1, Int = 2, Date = 3, YesNo = 11, AdultChild = 12
-    };
-    class RJISReadInfoAttributeAttribute : System.Attribute
-    {
-        public RJISTypes Type { get; private set; }
-        public int StartColumn { get; private set; }
-        public int EndColumn { get; private set; }
-
-        public RJISReadInfoAttributeAttribute(RJISTypes rjisType, int startColumn, int endColumn = -1)
+        public string Filename { get; set; }
+        public string Prefix { get; set; }
+        public RJISFileMapping(string filename, string prefix)
         {
-            Type = rjisType;
-            StartColumn = startColumn;
-            EndColumn = endColumn;
-        }
-    }
-
-    interface IRJISReadable { }
-
-    static class RJISReadable
-    {
-        static void Read(this IRJISReadable self, Stream s)
-        {
-            PropertyInfo[] properties = self.GetType().GetProperties();
-            foreach (PropertyInfo property in properties)
-            {
-                if (Attribute.IsDefined(property, typeof(RJISReadInfoAttributeAttribute)))
-                {
-                    var attribute = (RJISReadInfoAttributeAttribute)property.GetCustomAttribute(typeof(RJISReadInfoAttributeAttribute));
-                    var value = property.GetValue(self);
-                    var type = attribute.Type;
-                    var start = attribute.StartColumn;
-                    var end = attribute.EndColumn;
-                }
-            }
-        }
-    };
-
-    internal class Program
-    {
-        private static void Main(string[] args)
-        {
-            try
-            {
-                var readall = new RJISReadAll();
-
-                // from a type, get a list of RJIS element attributes (i.e. a list of rjis type, start column and end column):
-                var typeToAttributeList = new Dictionary<System.Type, List<RJISAttribute>>();
-
-
-                Console.WriteLine();
-            }
-            catch (Exception ex)
-            {
-                var codeBase = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-                var progname = Path.GetFileNameWithoutExtension(codeBase);
-                Console.Error.WriteLine(progname + ": Error: " + ex.Message);
-            }
-
+            Filename = filename;
+            Prefix = prefix;
         }
     }
 }
